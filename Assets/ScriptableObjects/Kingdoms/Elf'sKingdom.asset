@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7270f02b5998705478edb2d7a6c9cb16, type: 3}
+  m_Name: Elf'sKingdom
+  m_EditorClassIdentifier: Assembly-CSharp::KingdomData
+  kingdomName: Elf's Kingdom
+  kingdomLogo: {fileID: 21300000, guid: 4e55788f1fe899748a6281893a069ce7, type: 3}
+  flagImage: {fileID: 21300000, guid: 02a0c6eb80595e9428c8f4a10d95cd6c, type: 3}
+  descriptionBackground: {fileID: 21300000, guid: bc99cab6548c35c46a6ee5343a479519, type: 3}
+  descriptionMiddle: "For your Dwarf\u2019s Kingdom clan, you want stats that reflect
+    their traditional strengths: durability, engineering, and mining. \n\nSpecial
+    Unit: Ironbreaker Sentry Trait Name: Heart of the Mountain\n-Increases infantry
+    Defense by 5%.\n-Increases building construction speed by 10%.\n-Increases gold
+    mining speed by 10%."
+  descriptionBottom: The journey of your civilization starts here.  you will be the
+    author of your civilization's history.
