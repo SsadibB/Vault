@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7270f02b5998705478edb2d7a6c9cb16, type: 3}
-  m_Name: Dwarf'sKingdom
+  m_Name: Skeleton'sKingdom
   m_EditorClassIdentifier: Assembly-CSharp::KingdomData
-  kingdomName: Dwarf's Kingdom
-  kingdomLogo: {fileID: 21300000, guid: edacc1da7858f674abd0c9bcb550d817, type: 3}
-  flagImage: {fileID: 21300000, guid: 00700d5e0d2b738408d4917cced2714e, type: 3}
-  descriptionBackground: {fileID: 21300000, guid: ea14dc6175cea964898d37c530373e1b, type: 3}
+  kingdomName: Skeleton's Kingdom
+  kingdomLogo: {fileID: 21300000, guid: d73cbf47662f2be4f86cac3a14cb3d23, type: 3}
+  flagImage: {fileID: 21300000, guid: 18b4d3b5cc014eb4dbd24ef6c26d52f1, type: 3}
+  descriptionBackground: {fileID: 21300000, guid: ede80a575b318434793256c7fb72a36f, type: 3}
   descriptionMiddle: "For your Dwarf\u2019s Kingdom clan, you want stats that reflect
     their traditional strengths: durability, engineering, and mining. \n\nSpecial
     Unit: Ironbreaker Sentry Trait Name: Heart of the Mountain\n-Increases infantry
