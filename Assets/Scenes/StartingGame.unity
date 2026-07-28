@@ -1432,7 +1432,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 227.80981, y: 316.64603}
+  m_AnchoredPosition: {x: 208, y: 316.64603}
   m_SizeDelta: {x: 375.6197, y: 633.292}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &611558577
@@ -3345,6 +3345,8 @@ MonoBehaviour:
     data: {fileID: 11400000, guid: 7a3e00e69a2cd7f4c8c6f13ff0e655c9, type: 2}
   - button: {fileID: 883230621}
     data: {fileID: 11400000, guid: 989a82c40732aff49a2c4349f1e3848a, type: 2}
+  kingdomFlagRect: {fileID: 611558576}
+  kingdomDescriptionRect: {fileID: 2014404026}
   detailLogoImage: {fileID: 2138054238}
   detailFlagImage: {fileID: 1408195024}
   detailBackgroundImage: {fileID: 2014404027}
@@ -3353,8 +3355,8 @@ MonoBehaviour:
   detailBottomText: {fileID: 1042993416}
   fadeDuration: 1
   slideDuration: 0.35
-  slideInEase: 9
-  slideOutEase: 8
+  slideInEase: 18
+  slideOutEase: 9
 --- !u!4 &1442628398
 Transform:
   m_ObjectHideFlags: 0
