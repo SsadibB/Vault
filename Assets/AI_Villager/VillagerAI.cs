@@ -13,6 +13,10 @@ namespace Vault.AI
         [SerializeField] private float wanderWaitMax = 4.0f;
         [SerializeField] private float stoppingDistance = 0.5f;
 
+        [Header("Optimization Settings")]
+        [Tooltip("Interval in seconds between AI logic & navigation checks. (0.1 = 10 updates/sec instead of every frame)")]
+        [SerializeField] private float aiTickInterval = 0.1f;
+
         [Header("Animation Settings")]
         [SerializeField] private string animatorBoolName = "IsWalking";
 
@@ -21,9 +25,11 @@ namespace Vault.AI
         private Vector3 startPosition;
         private float waitTimer;
         private bool isWaiting;
+        private float nextTickTime;
 
         private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
         private int animParamHash;
+        private bool currentIsMoving;
 
         private void Awake()
         {
@@ -55,18 +61,25 @@ namespace Vault.AI
         {
             if (navAgent == null) return;
 
-            // Check velocity to update IsWalking animation bool
-            bool isMoving = navAgent.velocity.sqrMagnitude > 0.05f && !navAgent.isStopped;
+            // Throttle checks to run on interval (e.g. 10 times/sec) rather than every frame
+            if (Time.time < nextTickTime) return;
+            nextTickTime = Time.time + aiTickInterval;
 
-            if (animator != null)
+            // 1. Movement state caching: Only call SetBool when state changes to avoid GC/native overhead
+            bool isMoving = !isWaiting && navAgent.velocity.sqrMagnitude > 0.05f && !navAgent.isStopped;
+            if (isMoving != currentIsMoving)
             {
-                animator.SetBool(animParamHash, isMoving);
+                currentIsMoving = isMoving;
+                if (animator != null)
+                {
+                    animator.SetBool(animParamHash, currentIsMoving);
+                }
             }
 
-            // Handle destination arrival & waiting logic
+            // 2. Handle destination arrival & waiting logic
             if (isWaiting)
             {
-                waitTimer -= Time.deltaTime;
+                waitTimer -= aiTickInterval;
                 if (waitTimer <= 0f)
                 {
                     isWaiting = false;

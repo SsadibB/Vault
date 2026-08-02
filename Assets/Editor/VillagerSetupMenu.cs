@@ -125,14 +125,77 @@ namespace Vault.Editor
                 }
             }
 
+            // 5. Setup Top-Down Camera
+            SetupTopDownCamera();
+
             EditorUtility.SetDirty(villagerGo);
             EditorSceneManager.MarkSceneDirty(activeScene);
             EditorSceneManager.SaveOpenScenes();
+
+            Debug.Log("[VillagerSetupMenu] Successfully configured AI Villager scene with NavMesh, NavMeshAgent, NavMeshObstacles, and Top-Down Camera.");
+            return "OK: AI Villager scene configured with Top-Down Camera and NavMesh baked successfully.";
+        }
+
+        [MenuItem("Vault/Setup Top Down Camera")]
+        public static string SetupTopDownCamera()
+        {
+            var activeScene = EditorSceneManager.GetActiveScene();
+            Camera mainCam = Camera.main;
+
+            if (mainCam == null)
+            {
+                GameObject camGo = GameObject.Find("Main Camera");
+                if (camGo == null)
+                {
+                    camGo = new GameObject("Main Camera");
+                    mainCam = camGo.AddComponent<Camera>();
+                    camGo.tag = "MainCamera";
+                }
+                else
+                {
+                    mainCam = camGo.GetComponent<Camera>();
+                    if (mainCam == null) mainCam = camGo.AddComponent<Camera>();
+                }
+            }
+
+            // Add or retrieve TopDownCameraController
+            TopDownCameraController controller = mainCam.GetComponent<TopDownCameraController>();
+            if (controller == null)
+            {
+                controller = mainCam.gameObject.AddComponent<TopDownCameraController>();
+            }
+
+            // Ensure active EventSystem exists and is configured for the active Input System
+            var eventSystem = Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>();
+            GameObject eventSystemGo = eventSystem != null ? eventSystem.gameObject : new GameObject("EventSystem");
+            if (eventSystem == null)
+            {
+                eventSystemGo.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            }
+
+#if ENABLE_INPUT_SYSTEM
+            var legacyModule = eventSystemGo.GetComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+            if (legacyModule != null)
+            {
+                Object.DestroyImmediate(legacyModule);
+            }
+            if (eventSystemGo.GetComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>() == null)
+            {
+                eventSystemGo.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+            }
+#else
+            if (eventSystemGo.GetComponent<UnityEngine.EventSystems.StandaloneInputModule>() == null)
+            {
+                eventSystemGo.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+            }
+#endif
+
+            EditorUtility.SetDirty(mainCam.gameObject);
             EditorSceneManager.MarkSceneDirty(activeScene);
             EditorSceneManager.SaveOpenScenes();
 
-            Debug.Log("[VillagerSetupMenu] Successfully configured AI Villager scene with NavMesh, NavMeshAgent, and NavMeshObstacles.");
-            return "OK: AI Villager scene configured and NavMesh baked successfully.";
+            Debug.Log("[VillagerSetupMenu] Top-Down Camera setup complete on " + mainCam.gameObject.name);
+            return "OK: TopDownCameraController attached and configured on " + mainCam.gameObject.name;
         }
     }
 }

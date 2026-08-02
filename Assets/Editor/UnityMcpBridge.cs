@@ -215,6 +215,11 @@ namespace Vault.Editor
                             responseJson = $"{{\"status\":\"ok\",\"result\":\"{EscapeJson(resultMsg)}\"}}";
                             break;
 
+                        case "/mcp/setup_camera":
+                            string camResultMsg = VillagerSetupMenu.SetupTopDownCamera();
+                            responseJson = $"{{\"status\":\"ok\",\"result\":\"{EscapeJson(camResultMsg)}\"}}";
+                            break;
+
                         case "/mcp/menu":
                             if (req.HttpMethod == "POST")
                             {
