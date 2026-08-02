@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "vault-unity": {
+      "command": "python",
+      "args": [
+        "c:/Users/mashr/Documents/GitHub/Vault/mcp-server/server.py"
+      ]
+    }
+  }
+}
