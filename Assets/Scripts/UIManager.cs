@@ -353,6 +353,28 @@ public class UIManager : MonoBehaviour
     {
         Instance = this;
 
+        // Each Init method below is null-checked internally so a scene that only
+        // wires up SOME of these systems (e.g. a Game scene that only needs the
+        // cloud transition + speed dial, not the Loading/Start/Kingdom flow)
+        // won't throw a NullReferenceException here and get this component
+        // auto-disabled by Unity.
+        InitStartFlow();
+        InitKingdomSelection();
+    }
+
+    private void InitStartFlow()
+    {
+        if (startButton != null) startButton.onClick.AddListener(OnStartButtonClicked);
+    }
+
+    private void InitKingdomSelection()
+    {
+        if (kingdomSelectionPanel == null || kingdomsListPanel == null
+            || kingdomFlagRect == null || kingdomDescriptionRect == null)
+        {
+            return;
+        }
+
         kingdomSelectionCanvasGroup = GetOrAddCanvasGroup(kingdomSelectionPanel);
 
         kingdomsListRect = kingdomsListPanel.GetComponent<RectTransform>();
@@ -360,28 +382,32 @@ public class UIManager : MonoBehaviour
         kingdomFlagHomePos = kingdomFlagRect.anchoredPosition;
         kingdomDescriptionHomePos = kingdomDescriptionRect.anchoredPosition;
 
-        startButton.onClick.AddListener(OnStartButtonClicked);
-        backButton.onClick.AddListener(HideKingdomDetail);
+        if (backButton != null) backButton.onClick.AddListener(HideKingdomDetail);
 
-        foreach (var entry in kingdomEntries)
+        if (kingdomEntries != null)
         {
-            if (entry.button == null || entry.data == null)
+            foreach (var entry in kingdomEntries)
             {
-                Debug.LogWarning("UIManager: a Kingdom Entry is missing its Button or KingdomData.");
-                continue;
-            }
+                if (entry.button == null || entry.data == null)
+                {
+                    Debug.LogWarning("UIManager: a Kingdom Entry is missing its Button or KingdomData.");
+                    continue;
+                }
 
-            KingdomData data = entry.data;   // local copy for the closure
-            Button clickedButton = entry.button;
-            entry.button.onClick.AddListener(() => ShowKingdomDetail(data, clickedButton));
+                KingdomData data = entry.data;   // local copy for the closure
+                Button clickedButton = entry.button;
+                entry.button.onClick.AddListener(() => ShowKingdomDetail(data, clickedButton));
+            }
         }
 
-        kingdomDetailPanel.SetActive(false);
+        if (kingdomDetailPanel != null) kingdomDetailPanel.SetActive(false);
         kingdomSelectionPanel.SetActive(false);
     }
 
     private void Start()
     {
+        if (loadingPanel == null || startPanel == null) return;
+
         loadingPanel.SetActive(true);
         startPanel.SetActive(false);
         StartLoading();
@@ -543,4 +569,5 @@ public class UIManager : MonoBehaviour
                 isTransitioning = false;
             });
     }
+
 }
